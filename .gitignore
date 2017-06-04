@@ -10,3 +10,4 @@ samples/
 .gradle/
 build/
 .vagrant/
+classes/
