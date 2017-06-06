@@ -14,6 +14,7 @@ public class Python3TreeGenerator extends TreeGenerator {
     private static final TreeContext.MetadataSerializers defaultSerializers = new TreeContext.MetadataSerializers();
     private static final TreeContext.MetadataUnserializers defaultUnserializers = new TreeContext.MetadataUnserializers();
     private static final String PYTHON_PARSER_PATH = System.class.getResource("/python_parser.py").getPath();
+    public static final java.lang.String PYTHON_BIN_PATH = System.getProperty("gumtree.python.path", "python3");
 
     static {
         defaultSerializers.add("lines", x -> Arrays.toString((int[]) x));
@@ -42,7 +43,7 @@ public class Python3TreeGenerator extends TreeGenerator {
         }
         w.close();
         br.close();
-        ProcessBuilder b = new ProcessBuilder("python3", PYTHON_PARSER_PATH, f.getAbsolutePath());
+        ProcessBuilder b = new ProcessBuilder(PYTHON_BIN_PATH, PYTHON_PARSER_PATH, f.getAbsolutePath());
         b.directory(f.getParentFile());
         try {
             Process p = b.start();

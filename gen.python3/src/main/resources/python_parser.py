@@ -1,4 +1,4 @@
-import ast
+import ast, asttokens
 from ast import AST
 
 import sys
@@ -49,7 +49,9 @@ class GumTreeVisitor(ast.NodeVisitor):
             label=label,
             type_=types.index(node.__class__),
             type_label=node.__class__.__name__,
-            parent=parent
+            parent=parent,
+            pos=self.get_pos(node),
+            length=self.get_length(node),
         )
         for field, value in ast.iter_fields(node):
             if isinstance(value, list):
@@ -75,7 +77,20 @@ class GumTreeVisitor(ast.NodeVisitor):
         else:
             tree.to_xml()
 
+    def get_pos(self, node):
+        try:
+            return node.first_token.startpos
+        except AttributeError:
+            return 0
+
+    def get_length(self, node):
+        try:
+            return node.last_token.endpos - node.first_token.startpos
+        except AttributeError:
+            return 0
+
 
 if __name__ == '__main__':
-    tree = ast.parse(open(sys.argv[1]).read())
+    atok = asttokens.ASTTokens(open(sys.argv[1]).read(), parse=True)
+    tree = atok.tree
     GumTreeVisitor().visit(tree)
