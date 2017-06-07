@@ -10,11 +10,12 @@ def all_subclasses(cls):
 
 
 types = all_subclasses(AST)
+types.sort(key=lambda x: x.__name__)
 skip_nodes = [ast.Load.__name__, ]
 
 
 class Tree(object):
-    def __init__(self, label, type_, type_label, pos=0, length=0, parent=None):
+    def __init__(self, label: str, type_: int, type_label: str, pos: int = 0, length: int = 0, parent: "Tree" = None):
         self.label = label
         self.type = type_
         self.type_label = type_label
