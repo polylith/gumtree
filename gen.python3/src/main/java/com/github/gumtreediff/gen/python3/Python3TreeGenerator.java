@@ -30,7 +30,7 @@ public class Python3TreeGenerator extends TreeGenerator {
     }
 
     @Override
-    public TreeContext generate(Reader r) throws IOException {
+    protected TreeContext generate(Reader r) throws IOException {
         //FIXME this is not efficient but I am not sure how to speed up things here.
         File f = File.createTempFile("gumtree", ".py");
         FileWriter w = new FileWriter(f);
@@ -43,7 +43,21 @@ public class Python3TreeGenerator extends TreeGenerator {
         }
         w.close();
         br.close();
-        ProcessBuilder b = new ProcessBuilder(PYTHON_BIN_PATH, PYTHON_PARSER_PATH, f.getAbsolutePath());
+
+        //FIXME this is not efficient but I am not sure how to speed up things here.
+        File python_parser_file = File.createTempFile("python_parser", ".py");
+        FileWriter python_parser_w = new FileWriter(python_parser_file);
+        BufferedReader python_parser_br = new BufferedReader(new InputStreamReader(System.class.getResourceAsStream("/python_parser.py")));
+        String python_parser_line = python_parser_br.readLine();
+        while (python_parser_line != null) {
+            python_parser_w.append(python_parser_line);
+            python_parser_w.append(System.lineSeparator());
+            python_parser_line = python_parser_br.readLine();
+        }
+        python_parser_w.close();
+        python_parser_br.close();
+
+        ProcessBuilder b = new ProcessBuilder(PYTHON_BIN_PATH, python_parser_file.getAbsolutePath(), f.getAbsolutePath());
         b.directory(f.getParentFile());
         try {
             Process p = b.start();

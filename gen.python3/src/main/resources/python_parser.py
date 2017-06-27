@@ -3,6 +3,8 @@ from ast import AST
 
 import sys
 
+SPACES_COUNT = 4
+
 
 def all_subclasses(cls):
     return cls.__subclasses__() + [g for s in cls.__subclasses__()
@@ -30,7 +32,7 @@ class Tree(object):
     def to_xml(self, indent=0):
         print(
             '{indent}<tree type="{type}" label="{label}" typeLabel="{type_label}" pos="{pos}" length="{length}">'.format(
-                indent="    " * indent,
+                indent=" " * SPACES_COUNT * indent,
                 type=self.type,
                 type_label=self.type_label,
                 label=self.label,
