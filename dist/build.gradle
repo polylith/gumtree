@@ -15,7 +15,9 @@ description = 'GumTree whole distribution.'
 dependencies {
 	compile project(':client')
 	compile project(':client.diff')
-	//compile project(':gen.antlr3')
+	compile project(':gen.antlr3')
+	compile project(':gen.antlr4')
+	compile project(':gen.antlr4-python3')
 	//compile project(':gen.antlr3-antlr')
 	//compile project(':gen.antlr3-json')
 	//compile project(':gen.antlr3-php')
