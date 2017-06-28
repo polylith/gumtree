@@ -35,7 +35,7 @@ class Tree(object):
                 indent=" " * SPACES_COUNT * indent,
                 type=self.type,
                 type_label=self.type_label,
-                label=self.label,
+                label=self.label.replace('"', "&quot;"),
                 pos=self.pos,
                 length=self.length,
             )
